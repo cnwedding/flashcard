@@ -6,7 +6,7 @@ import { Check, Star, X, FastForward } from "lucide-react";
 
 export function Learning() {
   const navigate = useNavigate();
-  const { currentSession, saveWord, skipWord, learnedWord, nextWord } =
+  const { currentSession, saveWord, skipWord, learnedWord } =
     useLearningStore();
 
   useEffect(() => {

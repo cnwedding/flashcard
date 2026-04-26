@@ -674,7 +674,7 @@ export const vocabularyList: Word[] = [
     id: 67,
     word: "不得不",
     pinyin: "bùdé bù",
-    type: null,
+    type: "",
     meaning: "phải, không thể không",
     example: "他们不得不半夜离开。",
     pinyinExample: "Tāmen bùdé bù bànyè líkāi.",

@@ -2,13 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useLearningStore } from "../store/useLearningStore";
 import {
   Layers,
-  AlertCircle,
   Bookmark,
-  CheckCircle2,
   Flame,
-  User as UserIcon,
   Type,
-  FileText,
   MapPin,
   AlignLeft,
   ShieldAlert,
@@ -21,8 +17,6 @@ export function Dashboard() {
     streak,
     history,
     savedWords,
-    wrongWords,
-    skippedWords,
     currentSession,
     checkStreak,
     startDailySession,
@@ -46,13 +40,7 @@ export function Dashboard() {
     navigate("/learning");
   };
 
-  const todayHistory = history.find((h) => h.date === today);
   const totalLearned = history.reduce((acc, h) => acc + h.learned, 0);
-  const uniqueLearnedCount = new Set([
-    ...savedWords,
-    ...wrongWords,
-    ...skippedWords,
-  ]).size;
 
   return (
     <div className="w-full flex flex-col pb-12 bg-[#f8f9fa] min-h-screen">

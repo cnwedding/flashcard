@@ -1,29 +1,14 @@
-import { useState } from "react";
 import { useLearningStore } from "../store/useLearningStore";
 import { vocabularyList } from "../data/const";
-import {
-  Bookmark,
-  Search,
-  ArrowLeft,
-  Volume2,
-  BookmarkMinus,
-} from "lucide-react";
+import { Bookmark, ArrowLeft, Volume2, BookmarkMinus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function SavedWords() {
   const { savedWords, unsaveWord } = useLearningStore();
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
 
   const savedVocabulary = vocabularyList.filter((word) =>
     savedWords.includes(word.id),
-  );
-
-  const filteredWords = savedVocabulary.filter(
-    (w) =>
-      w.word.includes(searchTerm) ||
-      w.meaning.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      w.pinyin.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const speak = (text: string) => {
@@ -101,8 +86,8 @@ export function SavedWords() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredWords.length > 0 ? (
-                  filteredWords.map((word) => (
+                {savedVocabulary.length > 0 ? (
+                  savedVocabulary.map((word) => (
                     <tr
                       key={word.id}
                       className="hover:bg-slate-50 transition-colors"

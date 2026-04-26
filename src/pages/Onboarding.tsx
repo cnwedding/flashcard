@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { UserCircle, ChevronDown } from "lucide-react";
-import { useAuthStore } from "../store/useAuthStore";
 
 export function Onboarding() {
   const [fullName, setFullName] = useState("");
@@ -10,7 +9,6 @@ export function Onboarding() {
   const [gender, setGender] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +28,7 @@ export function Onboarding() {
       });
 
       if (error) throw error;
-      
+
       // Update local state if needed, or just navigate
       navigate("/");
     } catch (err: any) {
@@ -56,7 +54,9 @@ export function Onboarding() {
 
         <form onSubmit={handleSubmit} className="space-y-4 w-full">
           <div>
-            <label className="block text-slate-700 font-bold mb-1 ml-1 text-sm">Họ và tên</label>
+            <label className="block text-slate-700 font-bold mb-1 ml-1 text-sm">
+              Họ và tên
+            </label>
             <input
               type="text"
               required
@@ -68,7 +68,9 @@ export function Onboarding() {
           </div>
 
           <div>
-            <label className="block text-slate-700 font-bold mb-1 ml-1 text-sm">Tuổi</label>
+            <label className="block text-slate-700 font-bold mb-1 ml-1 text-sm">
+              Tuổi
+            </label>
             <input
               type="number"
               required
@@ -82,7 +84,9 @@ export function Onboarding() {
           </div>
 
           <div>
-            <label className="block text-slate-700 font-bold mb-1 ml-1 text-sm">Giới tính</label>
+            <label className="block text-slate-700 font-bold mb-1 ml-1 text-sm">
+              Giới tính
+            </label>
             <div className="relative">
               <select
                 required
@@ -90,7 +94,9 @@ export function Onboarding() {
                 onChange={(e) => setGender(e.target.value)}
                 className="w-full pl-5 pr-12 py-4 rounded-2xl bg-slate-100 text-slate-800 border-2 border-slate-200 focus:border-emerald-400 focus:bg-white outline-none transition-colors font-bold appearance-none cursor-pointer"
               >
-                <option value="" disabled>Chọn giới tính</option>
+                <option value="" disabled>
+                  Chọn giới tính
+                </option>
                 <option value="Nam">Nam</option>
                 <option value="Nữ">Nữ</option>
                 <option value="Khác">Khác</option>
