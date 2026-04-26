@@ -13,18 +13,20 @@ export function Login() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const signUpSuccessRef = React.useRef(false);
 
   React.useEffect(() => {
     const state = useAuthStore.getState();
-    if (!state.isInitializing && state.user) {
+    if (!state.isInitializing && state.user && !signUpSuccessRef.current) {
       navigate("/");
     }
 
     // Subscribe to auth changes specifically for the login page
     const unsubscribe = useAuthStore.subscribe((state) => {
-      if (!state.isInitializing && state.user) {
+      if (!state.isInitializing && state.user && !signUpSuccessRef.current) {
         navigate("/");
       }
     });
@@ -34,6 +36,7 @@ export function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSuccessMsg(null);
     setLoading(true);
 
     try {
@@ -48,8 +51,14 @@ export function Login() {
           password,
         });
         if (error) throw error;
-        alert("Đăng ký thành công! Bạn có thể đăng nhập ngay.");
-        setIsSignUp(false);
+        
+        signUpSuccessRef.current = true;
+        setSuccessMsg("Đăng ký thành công! Bạn có thể đăng nhập ngay.");
+        
+        setTimeout(() => {
+          navigate("/onboarding");
+        }, 2000);
+        
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -59,7 +68,11 @@ export function Login() {
         navigate("/");
       }
     } catch (err: any) {
-      setError(err.message || "An error occurred");
+      if (err.message === "Invalid login credentials") {
+        setError("Tài khoản/Mật khẩu không chính xác!");
+      } else {
+        setError("Đã có lỗi xảy ra!");
+      }
     } finally {
       setLoading(false);
     }
@@ -81,6 +94,9 @@ export function Login() {
 
         {error && (
           <p className="text-rose-500 font-bold mb-4 text-center">{error}</p>
+        )}
+        {successMsg && (
+          <p className="text-emerald-500 font-bold mb-4 text-center">{successMsg}</p>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4 w-full">
