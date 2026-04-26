@@ -32,6 +32,7 @@ interface LearningState {
   checkStreak: () => void;
   loadProgress: () => Promise<void>;
   syncProgress: () => Promise<void>;
+  resetProgress: () => void;
 }
 
 const WORDS_PER_DAY = 10;
@@ -86,6 +87,8 @@ export const useLearningStore = create<LearningState>()(
             lastLoginDate: data.last_login_date || null,
             newLessonsCount: data.new_lessons_count || 0,
           });
+        } else {
+          get().resetProgress();
         }
       },
 
@@ -104,6 +107,27 @@ export const useLearningStore = create<LearningState>()(
           last_login_date: state.lastLoginDate,
           new_lessons_count: state.newLessonsCount,
           updated_at: new Date().toISOString()
+        });
+      },
+
+      resetProgress: () => {
+        set({
+          savedWords: [],
+          skippedWords: [],
+          wrongWords: [],
+          history: [],
+          streak: 0,
+          lastLoginDate: null,
+          newLessonsCount: 0,
+          currentSession: {
+            wordsToLearn: [],
+            wordsToReview: [],
+            currentIndex: 0,
+            completed: false,
+            isReviewSession: false,
+            date: new Date().toDateString(),
+            newWordsCount: 0,
+          },
         });
       },
 

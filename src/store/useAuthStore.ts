@@ -10,6 +10,8 @@ interface AuthState {
   logout: () => Promise<void>;
 }
 
+import { useLearningStore } from './useLearningStore';
+
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isInitializing: true,
@@ -17,6 +19,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   setInitializing: (val) => set({ isInitializing: val }),
   logout: async () => {
     await supabase.auth.signOut();
+    useLearningStore.getState().resetProgress();
     set({ user: null });
   },
 }));
