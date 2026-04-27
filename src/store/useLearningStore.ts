@@ -87,8 +87,6 @@ export const useLearningStore = create<LearningState>()(
             lastLoginDate: data.last_login_date || null,
             newLessonsCount: data.new_lessons_count || 0,
           });
-        } else {
-          get().resetProgress();
         }
       },
 
